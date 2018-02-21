@@ -1,6 +1,8 @@
+let cnv;
+
 function setup() {
-  createCanvas(620, 540);
-  canvas.parent('canvas-holder');
+  cnv = createCanvas(620, 540);
+  cnv.parent('canvas-holder');
   centerCanvas();
 }
 
