@@ -36,11 +36,13 @@ class Game {
                 // Let's draw paused symbol
                 push();
                 fill(255);
-                rect(width / 2 - 27, height / 2 + 50, 20, 80);
-                rect(width / 2 + 7, height / 2 + 50, 20, 80);
+                rect(width / 2 - 27, height / 2 - 50, 20, 80);
+                rect(width / 2 + 7, height / 2 - 50, 20, 80);
                 
                 textSize(32);
                 textAlign(CENTER);
+                stroke(bgColor);
+                strokeWeight(8);
                 text("Paused", width / 2, height / 2);
                 pop();
             }
@@ -76,12 +78,30 @@ class Game {
     
     endGame() {
     	this.paused = true;
+    	
+    	addButton(new Button(width / 2 - 75, height / 2 + 20, 150, 40, "Restart", function(){
+            game.startGame();
+            removeButton("button.restart");
+        }, "button.restart"));
     }
     
     startGame() {
         this.paused = false;
         this.targets = [];
         this.setParams();
+    }
+    
+    pauseGame(pause) {
+        if(pause !== this.paused) {
+            if(pause) {
+                addButton(new Button(width / 2 - 75, height / 2 + 50, 150, 40, "Resume", function(){
+                    game.pauseGame(false);
+                }, "button.resume"));
+            } else {
+                removeButton("button.resume");
+            }
+            this.paused = pause;
+        }
     }
     
     addScore(points) {
