@@ -6,7 +6,7 @@ function Target(x, y) {
 	// target to disappear?
 	this.shot = false;
 	this.speed = 0.3;
-	
+	this.color = color("orange");
 	this.x = x;
 	this.y = y;
 	
@@ -28,8 +28,11 @@ function Target(x, y) {
 	
 	this.render = function() {
 		noStroke();
-		fill("orange");
+		fill(this.color);
 		ellipse(this.x, this.y, this.size, this.size);
+		
+		fill("#FFFFFF");
+		ellipse(this.x, this.y, 4, 4);
 	}
 	
 	this.inside = function(x, y) {

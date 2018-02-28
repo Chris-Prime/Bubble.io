@@ -1,3 +1,5 @@
+var buttons = [];
+
 function Button(x, y, w, h, txt, callback, id, customDraw) {
 	this.x = x;
 	this.y = y;
@@ -41,7 +43,9 @@ function Button(x, y, w, h, txt, callback, id, customDraw) {
 	
 	this.clicked = function() {
 		if(this.hovering) {
-			this.callback();
+			if(this.callback(this)) {
+				this.destroy();
+			}
 			return true;
 		}
 		return false;

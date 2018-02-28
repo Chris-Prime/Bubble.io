@@ -1,9 +1,10 @@
 var cnv;
 var hud;
-var game;
 var fc = 0;
-var buttons = [];
 var bgColor = 51;
+var cb;
+
+var game;
 
 function setup() {
 	cnv = createCanvas(620, 540);
@@ -12,6 +13,9 @@ function setup() {
 	
 	// Initialize a Game
 	hud = new HUD();
+	
+	cb = new Console(0, height - 7 * 16);
+	console.log(cb);
 	
 	game = createGame();
 	game.startGame();
@@ -41,6 +45,8 @@ function draw() {
 		buttons[b].draw();
 	}
 	
+	cb.render();
+	
 	fc++;
 	if(fc > 60) {
 		fc = 0;
@@ -61,7 +67,7 @@ function mouseClicked() {
 
 function keyPressed() {
 	if(key == "p" || key == "P") {
-		if(game.lifes > 0) game.pauseGame(true);
+		if(game.lifes > 0) game.setState(PAUSE_MENU_STATE);
 	}
 }
 

@@ -9,3 +9,7 @@ body {
 #canvas-holder {
     margin: 0 auto;
 }
+#defaultCanvas0 {
+    position: relative;
+    top: 50px;
+}
