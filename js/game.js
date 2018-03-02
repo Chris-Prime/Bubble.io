@@ -75,7 +75,11 @@ class Game {
     		
     		// Spawn new targets
     		if(fc % (60 / this.speed) == 0 && this.targets.length < this.speed) {
-    			this.targets.push(new Target(random(12, width - 12), random(30, height - 12)));
+                do {
+                    var x = random(12, width - 12);
+                    var y = random(30, height - 12));
+                } while (x > cb.width && y > cb.y);
+    			this.targets.push(new Target(x, y));
     		}
         } else {
             if(this.lifes <= 0) {
