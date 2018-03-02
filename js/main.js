@@ -67,7 +67,8 @@ function mouseClicked() {
 
 function keyPressed() {
 	if(key == "p" || key == "P") {
-		if(game.lifes > 0) game.setState(PAUSE_MENU_STATE);
+		//if(game.lifes > 0) game.setState(PAUSE_MENU_STATE);
+		if(game.lifes > 0) game.setPaused(true);
 	}
 }
 
