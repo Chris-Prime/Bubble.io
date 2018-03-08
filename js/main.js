@@ -28,7 +28,8 @@ function setup() {
 		width: 150,
 		height: 50, 
 		text: "Play",
-		callback: () => {console.log("clicked!");},
+		callback: (b) => {b.p.text = "Clicked"; b.after(1000 / 5, function(b){b.p.text="Play";});
+		},
 		id: "button.play"
 	}));
 	
@@ -128,13 +129,22 @@ function mouseClicked() {
 	for(b in buttons) {
 		if(buttons[b].clicked()) return true;
 	}
-	game.mouseClicked();
 }
 
 function keyPressed() {
-	if(key == "p" || key == "P") {
-		//if(game.lifes > 0) game.setState(PAUSE_MENU_STATE);
-		if(game.lifes > 0) game.pauseGame(true);
+	if(key === "w") {
+		t.p.yspeed = -50;
+	} else if (key === "s") {
+		t.p.yspeed = 50;
+	} else if (key === "d") {
+		t.p.xspeed = 50;
+	} else if (key === "a") {
+		t.p.xspeed = -50;
 	}
+}
+
+function keyReleased() {
+	t.p.xspeed = 0;
+	t.p.yspeed = 0;
 }
 
