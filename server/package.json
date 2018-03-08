@@ -1,0 +1,9 @@
+{
+  "name": "bubble-io-server",
+  "version": "0.0.1",
+  "description": "Game server for Bubble.io",
+  "dependencies": {
+    "express": "^4.16.2",
+    "socket.io": "^2.0.4"
+  }
+}
