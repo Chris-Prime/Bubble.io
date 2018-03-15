@@ -6,10 +6,12 @@ class GameObject extends p5.Vector {
         this.p = Utils.defaults(p, {
             sleeping: false,
             hidden: false,
-            private: false,
-            lastPos: this.copy()
+            private: true, // Set to false if using this as global object or false if it is in scene
+            lastPos: this.copy(),
+            age: 0
         });
         this.p = Utils.defaults(this.p, defaults);
+        this.scene = null;
         
         delete this.p.x;
         delete this.p.y;
@@ -24,8 +26,13 @@ class GameObject extends p5.Vector {
         this.events = [];
     }
     
-    draw(ctx) {
+    draw() {
         
+    }
+    
+    _update(dt) {
+        this.p.age += dt;
+        this.update(dt);
     }
     
     update(dt) {
@@ -36,10 +43,14 @@ class GameObject extends p5.Vector {
         setTimeout(callback, time, this);
     }
     
-    destroy() {
+    destroyInternal() {
         // This removes any reference from 'engine'
         removeFromLayer(this); // Stops rendering this object
         removeFromGameObjects(this); // Stops calling updates
+    }
+    
+    destroy() {
+        if(this.destroyInternal) this.destroyInternal();
     }
     
     // Event System
@@ -65,9 +76,16 @@ class GameObject extends p5.Vector {
     }
     
     trigger(event, data) {
+        if(!this.events[event]) return; // No listeners
         for(var i = 0; i < this.events[event].length; i++) {
             this.events[event][i](this, data);
         }
+    }
+    
+    setZ(z) {
+        removeFromLayer(this, this.z);
+        this.z = z instanceof p5.Vector ? z.z : z;
+        addToLayer(this, this.z);
     }
     
 }

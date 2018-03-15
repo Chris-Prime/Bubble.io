@@ -2,7 +2,8 @@
 // Steps Per Second
 const SPS = 1000 / 30;
 
-const BACKGROUND_COLOR = "#515151";
+var DEFAULT_BACKGROUND_COLOR = "#515151";
+var BACKGROUND_COLOR = DEFAULT_BACKGROUND_COLOR;
 
 var lastUpdate;
 var cnv;
@@ -17,24 +18,37 @@ function setup() {
 	Utils.centerCanvas();
 	
 	// Add background
-	addToLayer(function(){
-		background(BACKGROUND_COLOR);
-	}, 0);
+	BACKGROUND_COLOR = color(BACKGROUND_COLOR);
+	var bg = {
+		draw: function() {
+			BACKGROUND_COLOR.setAlpha(this.alpha);
+		
+			fill(BACKGROUND_COLOR);
+			rect(0, 0, width, height);
+		},
+		alpha: 0,
+		fadeSpeed: 0,
+		maxAlpha: 100,
+		minAlpha: 0,
+		update: function(dt) {
+			this.alpha += this.fadeSpeed * dt;
+			if(this.alpha > this.maxAlpha) {
+				this.alpha = this.maxAlpha;
+			} else if (this.alpha < this.minAlpha) {
+				this.alpha = this.minAlpha;
+			}
+		}
+	};
+	addToGameObjects(bg, 0);
 	
 	// Initialize a Game
-	addButton(new Button({
-		x: width / 2 - 75,
-		y: height / 2 - 25, 
-		width: 150,
-		height: 50, 
-		text: "Play",
-		callback: (b) => {b.p.text = "Clicked"; b.after(1000 / 5, function(b){b.p.text="Play";});
-		},
-		id: "button.play"
-	}));
+	addToGameObjects(new colorPage(), 1);
 	
 	lastUpdate = Date.now();
 	window.setInterval(update, SPS);
+}
+
+function startGame() {
 }
 
 function update() {
@@ -44,7 +58,11 @@ function update() {
 	
 	for(var i = 0; i < gameObjects.length; i++) {
 		if(!gameObjects[i].sleeping) {
-			gameObjects[i].update(dt / 1000);
+			if(gameObjects[i]._update) {
+				gameObjects[i]._update(dt / 1000);
+			} else {
+				gameObjects[i].update(dt / 1000);
+			}
 		}
 	}
 }
@@ -71,6 +89,8 @@ function removeFromGameObjects(obj) {
 }
 
 function draw() {
+	background(DEFAULT_BACKGROUND_COLOR);
+
 	for(layer in layers) {
 		for(var i = 0; i < layers[layer].length; i++) {
 			if(typeof(layers[layer][i]) === "function") {
@@ -106,6 +126,7 @@ function getLayer(z) {
 function removeFromLayer(obj, z) {
 	var i;
 	z = z || obj.z || 0;
+	if(!layers[z]) return false;
 	if((i = layers[z].indexOf(obj)) != -1) {
 		layers[z][i].z = -1;
 		return layers[z].splice(i, 1);

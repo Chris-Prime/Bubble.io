@@ -46,3 +46,13 @@ class TestObject extends GameObject {
 	
 }
 
+var counter = {
+	age: 0,
+	_update: function(dt) {this.age+=dt;this.update(dt);},
+	draw: function() {noStroke();fill(255);textAlign(CENTER);textSize(64);text(5 - floor(this.age*1000), width / 2, height / 2);},
+	update: function(dt) {
+		if(this.age*1000 >= 5) {
+			this.scene.remove(this, true);
+		}
+	}
+};
