@@ -12,9 +12,13 @@ function __entityClass() {
             name: '',
           },defaultProps);
     
-          Q._extend(this.p,props); 
+          Q._extend(this.p,props);
     
           this.p.id = this.p.id || Q._uniqueId();
-       }
+       },
+       destroy: function() {
+         this.stage.remove(this);  
+       },
+       mark: 999999999
     });
 }

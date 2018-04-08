@@ -8,8 +8,17 @@ body {
 }
 #canvas-holder {
     margin: 0 auto;
+    margin-top: 50px;
 }
 #defaultCanvas0 {
     position: relative;
     top: 50px;
+}
+#header {
+    text-align: center;
+    font-size: 3em;
+    color: orange;
+}
+#ext {
+    color: blue;
 }

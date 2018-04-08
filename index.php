@@ -19,6 +19,11 @@
     <noscript>Your browser doesn't support javascript or it's functionality to do that is disabled.
     Please check your settings and reload the page.</noscript>
     <div id="container">
+      
+      <div id="header">
+        <p>BUBBLE<span id="ext">.IO</span></p>
+      </div>
+      
       <div id="canvas-holder">
         <!-- Canvas goes here -->
       </div>

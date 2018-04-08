@@ -4,16 +4,19 @@ const PATH      = "";
 const LIBRARIES = "lib";
 const SOURCE    = "js";
 const CLASSES   = "js/classes"; // Relative path
+const SCENES    = "js/scenes"; // Relative path
 
 $p = [
     SOURCE      => PATH.SOURCE.DIRECTORY_SEPARATOR,
     LIBRARIES   => PATH.LIBRARIES.DIRECTORY_SEPARATOR,
-    CLASSES     => PATH.CLASSES.DIRECTORY_SEPARATOR
+    CLASSES     => PATH.CLASSES.DIRECTORY_SEPARATOR,
+    SCENES      => PATH.SCENES.DIRECTORY_SEPARATOR
     ];
     
 $depends = [
     "entity" => ["main"],
-    "colorButton" => ["entity"]
+    "colorButton" => ["entity"],
+    "singlePlayerGame" => ["target"]
 ];
 
 function spit($string) {
@@ -34,6 +37,7 @@ function sortdepends($files) {
     usort($files, function($a, $b) {
         $a = pathinfo($a, PATHINFO_FILENAME);
         $b = pathinfo($a, PATHINFO_FILENAME);
+        if($a === "utility") return 1;
         if(isset($depends[$a])) {
             return in_array($b, $depends[$a], true) ? -1 : 1; 
         }
@@ -57,6 +61,7 @@ function _header() {
     includeScripts("LIBRARIES", $p[LIBRARIES]);
     includeScripts("SOURCE", $p[SOURCE]);
     includeScripts("CLASSES", $p[CLASSES]);
+    includeScripts("SCENES", $p[SCENES]);
 }
 
 ?>
